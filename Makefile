@@ -14,6 +14,7 @@
 #CXX = g++
 #CXX = clang++
 
+BIN_FOLDER = bin
 EXE = bin/imgui-test
 IMGUI_DIR = imgui
 SOURCES = main.cpp
@@ -79,11 +80,15 @@ endif
 %.o:$(IMGUI_DIR)/backends/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
+all: SHELL:=/bin/bash
 all: $(EXE)
 	@echo Build complete for $(ECHO_MESSAGE)
 
 $(EXE): $(OBJS)
-	mkdir bin
+	if [ ! -d $(BIN_FOLDER) ]; then \
+		mkdir $(BIN_FOLDER);        \
+	fi
+	rm -f bin/*
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LIBS)
 
 clean:
